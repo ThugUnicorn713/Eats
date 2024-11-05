@@ -2203,7 +2203,7 @@ Transform:
   m_GameObject: {fileID: 448901910}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.141, y: 1.045, z: -0.175}
+  m_LocalPosition: {x: 0.141, y: 0.994, z: -0.175}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4566,9 +4566,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthValue: 0
   clickableArea: {fileID: 1181244595}
-  payTollPanel: {fileID: 79294589}
-  maybeCard: {fileID: 0}
   playedCard: {fileID: 0}
+  payTollPanel: {fileID: 79294589}
+  playerCardPlace: {fileID: 448901910}
   hpText: {fileID: 1893931890}
   cardNameText: {fileID: 1483644037}
   cardValue: 0
@@ -6545,7 +6545,7 @@ Transform:
   m_GameObject: {fileID: 1406090370}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.141, y: 1.045, z: 0.238}
+  m_LocalPosition: {x: 0.141, y: 1.0002, z: 0.238}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10744,6 +10744,7 @@ MonoBehaviour:
   - {fileID: 75190804}
   - {fileID: 1979092191}
   emptySlots: 0101010101
+  playerManager: {fileID: 801962866}
 --- !u!4 &1984746070
 Transform:
   m_ObjectHideFlags: 0

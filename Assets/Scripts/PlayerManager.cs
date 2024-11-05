@@ -8,9 +8,11 @@ public class PlayerManager : MonoBehaviour
     public int healthValue;
     public Collider clickableArea;
 
-    public GameObject payTollPanel;
-    public GameObject maybeCard;
+    private GameObject maybeCard;
+
     public GameObject playedCard;
+    public GameObject payTollPanel;
+    public GameObject playerCardPlace;
 
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI cardNameText;
@@ -44,19 +46,18 @@ public class PlayerManager : MonoBehaviour
                     cardTitle = maybeCard.GetComponent<Card>().cardInfo.cardName;
                     PrintHPCost();
                     PrintCardName();
-                    
-                    payTollPanel.SetActive(true);
-                    
 
-                    //Debug.Log("clicked on something in Player hand: " + hit.collider.gameObject);
+                    payTollPanel.SetActive(true);
                 }
-                else
-                {
-                    //Debug.Log("clicked outside the preferred area");
-                }
+
             }
         }
 
+    }
+
+    public int GetCurrentHealth()
+    {
+        return healthValue;
     }
 
     public void PrintHPCost()
@@ -106,6 +107,13 @@ public class PlayerManager : MonoBehaviour
         }
 
         payTollPanel.SetActive(false);
+
+        if (playedCard != null)
+        {
+            playedCard.transform.position = playerCardPlace.transform.position;
+            playedCard.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        }
 
     }
 

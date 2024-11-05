@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     //public Transform[] CPUSlots; 
     public bool[] emptySlots;
 
+    public PlayerManager playerManager;
+
+    
+
+
     public void Start() 
     { 
         for (int i = 0; i < emptySlots.Length; ++i)
@@ -46,3 +51,5 @@ public class GameManager : MonoBehaviour
     }
 
 }
+
+
