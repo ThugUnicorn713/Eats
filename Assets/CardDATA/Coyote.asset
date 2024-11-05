@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3335d247724c6042aea678e044d18d8, type: 3}
   m_Name: Coyote
   m_EditorClassIdentifier: 
-  CardName: Coyote
+  cardName: Coyote
   value: 3
+  hpCost: 20
   hasSpecial: 0

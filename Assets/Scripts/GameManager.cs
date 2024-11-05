@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public List<GameObject> deck = new List<GameObject>();
     public Transform[] playerSlots;
+    //public Transform[] CPUSlots; 
     public bool[] emptySlots;
 
     public void Start() 
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
                     ranCard.transform.SetParent(null);
                     ranCard.transform.rotation = Quaternion.Euler(-90, 0, 0);
                     ranCard.transform.position = playerSlots[i].position;
+                    //ranCard.transform.position = CPUSlots[i].position;
                     //Debug.Log("Positioning card at: " + playerSlots[i].position);
                     emptySlots[i] = false;
                     deck.Remove(ranCard);
