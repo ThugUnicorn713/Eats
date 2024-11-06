@@ -6,42 +6,49 @@ public class GameManager : MonoBehaviour
 {
     public List<GameObject> deck = new List<GameObject>();
     public Transform[] playerSlots;
-    //public Transform[] CPUSlots; 
-    public bool[] emptySlots;
+    public Transform[] cpuSlots;
+    public bool[] playerEmptySlots;
+    public bool[] cpuEmptySlots;
 
     public PlayerManager playerManager;
-
-    
 
 
     public void Start() 
     { 
-        for (int i = 0; i < emptySlots.Length; ++i)
+        for (int i = 0; i < playerEmptySlots.Length; ++i)
         {
-            if (emptySlots[i] && deck.Count > 0)
+            if (playerEmptySlots[i] && deck.Count > 0)
             {
-                DrawCard();
+                DrawCard(false);
             }
         }
-        
+       
+        for (int i = 0; i < cpuEmptySlots.Length; ++i)
+        {
+            if (cpuEmptySlots[i] && deck.Count > 0)
+            {
+                DrawCard(true);
+            }
+        }
     }
 
-    public void DrawCard()
+    public void DrawCard(bool isCPU) //bool checks if it goes to CPU hand or players hand 
     {
        if (deck.Count >= 1)
        {
             GameObject ranCard = deck[Random.Range(0, deck.Count)];
+
+            Transform[] slots = isCPU ? cpuSlots : playerSlots;
+            bool[] emptySlots = isCPU ? cpuEmptySlots : playerEmptySlots;
 
             for (int i = 0; i < emptySlots.Length; i++)
             {
                 if (emptySlots[i] == true)
                 {
                     ranCard.SetActive(true);
-                    ranCard.transform.SetParent(null);
+                    ranCard.transform.SetParent(slots[i]);
                     ranCard.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                    ranCard.transform.position = playerSlots[i].position;
-                    //ranCard.transform.position = CPUSlots[i].position;
-                    //Debug.Log("Positioning card at: " + playerSlots[i].position);
+                    ranCard.transform.position = slots[i].position;
                     emptySlots[i] = false;
                     deck.Remove(ranCard);
                     return;
@@ -49,7 +56,6 @@ public class GameManager : MonoBehaviour
             }
        }
     }
-
 }
 
 
