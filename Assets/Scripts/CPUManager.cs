@@ -15,15 +15,19 @@ public class CPUManager : MonoBehaviour
         if (initialied == false)
         {
             AddTransformstoHand();
+           
+
+            GameObject selectedCard = NPCPicksCard<GameObject>.testMethod(this);
+
+            Debug.Log("CPU MAnager got the NPC card");
+
+            selectedCard.transform.position = cpuCardPlace.transform.position;
+            selectedCard.transform.rotation = Quaternion.Euler(0, 0, 0);
+
             initialied = true;
         }
 
-        GameObject selectedCard = NPCPicksCard<GameObject>.testMethod(this);
-
-        Debug.Log("CPU MAnager got the NPC card");
-
-        selectedCard.transform.position = cpuCardPlace.transform.position;
-        selectedCard.transform.rotation = Quaternion.Euler(0, 0, 0);
+        
     }
 
     public void AddTransformstoHand()
