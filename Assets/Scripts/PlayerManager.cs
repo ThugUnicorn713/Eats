@@ -1,11 +1,12 @@
 using JetBrains.Annotations;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    public int healthValue;
+    public static int healthValue;
     public Collider clickableArea;
 
     private GameObject maybeCard;
@@ -20,7 +21,11 @@ public class PlayerManager : MonoBehaviour
     public int cardValue;
     public string cardTitle;
     public int cardHPCost;
-    
+
+    public static bool playerHasPlayed = false;
+
+    public GameManager gameManager;
+
     private Camera mainCamera;
 
     public void Start()
@@ -79,7 +84,16 @@ public class PlayerManager : MonoBehaviour
     public void PayToll()
     {
         playedCard = maybeCard;
-        
+
+        List<GameObject> playerHandList = gameManager.GetPlayerHand();
+
+        int cardIndex = playerHandList.IndexOf(playedCard);
+        bool[] playerHandBools = gameManager.GetPlayerBools();
+
+        playerHandBools[cardIndex] = true;
+        playerHandList.Remove(playedCard);
+
+
         cardValue = playedCard.GetComponent<Card>().cardInfo.value;
 
         switch (cardValue)
@@ -110,8 +124,10 @@ public class PlayerManager : MonoBehaviour
 
         if (playedCard != null)
         {
+            playedCard.transform.parent = playerCardPlace.transform;
             playedCard.transform.position = playerCardPlace.transform.position;
             playedCard.transform.rotation = Quaternion.Euler(0, 0, 0);
+            playerHasPlayed = true;
 
         }
 
@@ -130,13 +146,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void Pay1()
+    public static void Pay1()
     {
         Debug.Log("player has paid the 1hp!");
         healthValue -= 1;
     }
    
-    public void Pay25()
+    public static void Pay25()
     {
         Debug.Log("player has paid the 25hp!");
         healthValue -= 25;

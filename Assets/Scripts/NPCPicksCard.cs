@@ -20,9 +20,13 @@ public class NPCPicksCard<T> : MonoBehaviour {
         
 
         foreach (var item in manager.cpuHandPositions) {
-            cardList.Add(item.GetChild(1).gameObject);
-            //                        ^^^ If you have a sphere, its 1, if you delete the object, make this zero
-            Debug.Log(item.GetChild(1).gameObject.GetComponent<Card>().cardInfo.name);
+          
+            if(item.childCount == 2)
+            {
+                cardList.Add(item.GetChild(1).gameObject);
+                //                        ^^^ If you have a sphere, its 1, if you delete the object, make this zero
+                Debug.Log(item.GetChild(1).gameObject.GetComponent<Card>().cardInfo.name);
+            }
 
         }
 
@@ -48,7 +52,7 @@ public class NPCPicksCard<T> : MonoBehaviour {
 
             if (selectedWeight <= temporaryVal) // if the selected weight, is less or equal to the current increment
             {
-                Debug.Log("NPC picked a card");
+                //Debug.Log("NPC picked a card");
                 return inputs[i]; // return the current element that is being looked at
                 
                 

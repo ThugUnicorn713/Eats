@@ -439,6 +439,7 @@ MonoBehaviour:
   - {fileID: 1293376730}
   cpuHand: []
   cpuCardPlace: {fileID: 1406090370}
+  gameManager: {fileID: 1984746069}
 --- !u!4 &51133642
 Transform:
   m_ObjectHideFlags: 0
@@ -517,6 +518,59 @@ Transform:
   m_Children:
   - {fileID: 7474041}
   m_Father: {fileID: 1181244594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &75510843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 75510845}
+  - component: {fileID: 75510844}
+  m_Layer: 0
+  m_Name: Discard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &75510844
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75510843}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &75510845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75510843}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.574, y: 1.015, z: -0.139}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.3}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &79294589
 GameObject:
@@ -4638,7 +4692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f247d6185d8a9d841946333fb2edd541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthValue: 0
   clickableArea: {fileID: 1181244595}
   playedCard: {fileID: 0}
   payTollPanel: {fileID: 79294589}
@@ -4648,6 +4701,7 @@ MonoBehaviour:
   cardValue: 0
   cardTitle: 
   cardHPCost: 0
+  gameManager: {fileID: 1984746069}
 --- !u!4 &801962867
 Transform:
   m_ObjectHideFlags: 0
@@ -6209,7 +6263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1269055057
 Transform:
   m_ObjectHideFlags: 0
@@ -10767,6 +10821,8 @@ MonoBehaviour:
   - {fileID: 640104409}
   - {fileID: 351144653}
   - {fileID: 644623649}
+  playerHand: []
+  npcHand: []
   playerSlots:
   - {fileID: 1697858261}
   - {fileID: 736988814}
@@ -10781,6 +10837,15 @@ MonoBehaviour:
   - {fileID: 1293376730}
   playerEmptySlots: 0101010101
   cpuEmptySlots: 0101010101
+  npcPlaySpot: {fileID: 1406090370}
+  playerPlaySpot: {fileID: 448901910}
+  discardPile: {fileID: 75510843}
+  npcPlayedValue: 0
+  playerPlayedValue: 0
+  npcCost: 0
+  playerCost: 0
+  playerHealth: 0
+  npcHealth: 0
   playerManager: {fileID: 801962866}
 --- !u!4 &1984746070
 Transform:
@@ -11059,6 +11124,7 @@ SceneRoots:
   - {fileID: 598246665}
   - {fileID: 448901912}
   - {fileID: 1406090372}
+  - {fileID: 75510845}
   - {fileID: 1745260954}
   - {fileID: 1948775782}
   - {fileID: 1055584848}
