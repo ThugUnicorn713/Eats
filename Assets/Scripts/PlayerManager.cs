@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject playedCard;
     public GameObject payTollPanel;
     public GameObject playerCardPlace;
+    public GameObject npcWinPanel;
 
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI cardNameText;
@@ -58,6 +59,11 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
+        if (healthValue == 0)
+        {
+
+        }
+
     }
 
     public int GetCurrentHealth()
@@ -90,8 +96,19 @@ public class PlayerManager : MonoBehaviour
         int cardIndex = playerHandList.IndexOf(playedCard);
         bool[] playerHandBools = gameManager.GetPlayerBools();
 
-        playerHandBools[cardIndex] = true;
-        playerHandList.Remove(playedCard);
+        if (cardIndex >= 0 && cardIndex < playerHandBools.Length)
+        {
+            playerHandBools[cardIndex] = true; // Mark the slot as empty
+            playerHandList.Remove(playedCard);
+        }
+        else
+        {
+            Debug.LogError($"Invalid card index: {cardIndex}");
+        }
+
+
+        //playerHandBools[cardIndex] = true;
+        //playerHandList.Remove(playedCard);
 
 
         cardValue = playedCard.GetComponent<Card>().cardInfo.value;
@@ -150,11 +167,18 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("player has paid the 1hp!");
         healthValue -= 1;
+        UIManager.instance.UpdateHealthUI();
     }
    
     public static void Pay25()
     {
         Debug.Log("player has paid the 25hp!");
         healthValue -= 25;
+        UIManager.instance.UpdateHealthUI();
+    }
+
+    public void NPCwins()
+    {
+        npcWinPanel.SetActive(true);
     }
 }

@@ -17,15 +17,15 @@ public class NPCPicksCard<T> : MonoBehaviour {
         //List<GameObject> weightList = new List<GameObject>();
         List<GameObject> cardList = new List<GameObject>();
 
-        
+       
 
         foreach (var item in manager.cpuHandPositions) {
           
-            if(item.childCount == 2)
+            if(item.childCount >= 2)
             {
                 cardList.Add(item.GetChild(1).gameObject);
                 //                        ^^^ If you have a sphere, its 1, if you delete the object, make this zero
-                Debug.Log(item.GetChild(1).gameObject.GetComponent<Card>().cardInfo.name);
+               Debug.Log("DEBUG YOU ARE LOOKING FOR!!!" + item.GetChild(1).gameObject.GetComponent<Card>().cardInfo.hpCost);
             }
 
         }

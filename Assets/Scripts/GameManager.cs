@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,6 +17,9 @@ public class GameManager : MonoBehaviour
     public GameObject npcPlaySpot;
     public GameObject playerPlaySpot;
     public GameObject discardPile;
+    public GameObject flyCard;
+    public GameObject playerCardPlace;
+    public GameObject npcCardPlace;
 
     private Transform npcDiscard;
     private Transform playerDiscard;
@@ -27,7 +31,7 @@ public class GameManager : MonoBehaviour
     public int playerHealth;
     public int npcHealth;
 
-    public PlayerManager playerManager;
+   //public CPUManager cpuManager;
 
     public bool[] GetPlayerBools()
     {
@@ -71,14 +75,16 @@ public class GameManager : MonoBehaviour
 
         if (npcFinal == true && playerFinal == true)
         {
-            Debug.Log("Both players have placed there cards");
+           // Debug.Log("Both players have placed there cards");
             CompareCards();
             DiscardCards();
 
             CPUManager.npcHasPlayed = false;
             PlayerManager.playerHasPlayed = false;
         }
-        
+
+        GrabFlyCardForPlayer(flyCard);
+        GrabFlyCardForNPC(flyCard);
     }
 
 
@@ -86,7 +92,7 @@ public class GameManager : MonoBehaviour
     {
        if (deck.Count >= 1)
        {
-            Debug.Log($"Deck contains {deck.Count} cards.");
+            //Debug.Log($"Deck contains {deck.Count} cards.");
 
             GameObject ranCard = deck[Random.Range(0, deck.Count)];
             //Debug.Log($"Randomly selected card: {ranCard.name}");
@@ -99,7 +105,7 @@ public class GameManager : MonoBehaviour
             {
                 if (emptySlots[i] == true)
                 {
-                    Debug.Log($"Found empty slot: {slots[i].name}");
+                    //Debug.Log($"Found empty slot: {slots[i].name}");
 
                     ranCard.SetActive(true);
                     ranCard.transform.SetParent(slots[i]);
@@ -112,7 +118,7 @@ public class GameManager : MonoBehaviour
 
                     deck.Remove(ranCard);
 
-                    Debug.Log($"Deck size after removal: {deck.Count}");
+                    //Debug.Log($"Deck size after removal: {deck.Count}");
                     return;
                 }
             }
@@ -149,14 +155,22 @@ public class GameManager : MonoBehaviour
         if (playerPlayedValue > npcPlayedValue)
         {
             Debug.Log("Player Wins round!");
-            playerHealth += npcCost;
+            PlayerManager.healthValue += npcCost;
+            UIManager.instance.UpdateHealthUI();
+            UIManager.instance.UpdateNPCHealthUI();
+            UIManager.instance.GetPlayerWon();
+            UIManager.instance.TurnOffPlayerWon();
             Debug.Log("Player health :" +  playerHealth);
             DrawCardForNPC();
         }
         else if (playerPlayedValue < npcPlayedValue)
         {
             Debug.Log("NPC Wins Round!");
-            npcHealth += playerCost;
+            CPUManager.npcHealthValue += playerCost;
+            UIManager.instance.UpdateHealthUI();
+            UIManager.instance.UpdateNPCHealthUI();
+            UIManager.instance.GetNPCWon();
+            UIManager.instance.TurnOffNPCWon();
             Debug.Log("npc health :" + npcHealth);
             DrawCardForPlayer();
         }
@@ -165,6 +179,10 @@ public class GameManager : MonoBehaviour
             Debug.Log("We have a tie");
             Debug.Log("Player health :" + playerHealth);
             Debug.Log("npc health :" + npcHealth);
+            UIManager.instance.UpdateNPCHealthUI();
+            UIManager.instance.UpdateHealthUI();
+            UIManager.instance.GetTIE();
+            UIManager.instance.TurnOffTIE();
         }
 
         CPUManager.initialied = false;
@@ -177,11 +195,11 @@ public class GameManager : MonoBehaviour
 
         playerDiscard.transform.parent = discardPile.transform;
         playerDiscard.transform.position = discardPile.transform.position;
-        playerDiscard.transform.rotation = Quaternion.Euler(0, 0, 0);
+        playerDiscard.transform.rotation = Quaternion.Euler(0, 0, 180);
 
         npcDiscard.transform.parent = discardPile.transform;
         npcDiscard.transform.position = discardPile.transform.position;
-        npcDiscard.transform.rotation = Quaternion.Euler(0, 0, 0);
+        npcDiscard.transform.rotation = Quaternion.Euler(0, 0, 180);
 
 
     }
@@ -196,7 +214,74 @@ public class GameManager : MonoBehaviour
     {
         CPUManager.npcNeedsToDrawCard = true;
         DrawCard(true);
-        Debug.Log("I drew a card for the NPC");
+
+        // After drawing a card, ensure positions are updated
+        //cpuManager.UpdateCPUHandPositions();
+
+        Debug.Log("I drew a card for the NPC and updated hand positions.");
+        
+    }
+
+    public void GrabFlyCardForPlayer(GameObject flyCard)
+    {
+        if (playerEmptySlots.All(isEmpty => isEmpty))
+        {
+            Debug.Log("All player slots are empty.");
+            GrabFlyCard(flyCard);
+        }
+        else
+        {
+            Debug.Log("Not all player slots are empty.");
+        }
+    }
+
+    private void GrabFlyCard(GameObject flyCard)
+    {
+        if (flyCard != null)
+        {
+            Debug.Log($"Grabbing object: {flyCard.name}");
+            
+            flyCard.SetActive(true);
+            flyCard.transform.parent = playerCardPlace.transform;
+            flyCard.transform.position = playerCardPlace.transform.position;
+            flyCard.transform.rotation = Quaternion.Euler(0, 0, 0);
+            PlayerManager.playerHasPlayed = true;
+        }
+        else
+        {
+            Debug.Log("Target object is null!");
+        }
+    }
+
+    public void GrabFlyCardForNPC(GameObject flyCard)
+    {
+        if (cpuEmptySlots.All(isEmpty => isEmpty))
+        {
+            Debug.Log("All player slots are empty.");
+            GrabFlyCardNPC(flyCard);
+        }
+        else
+        {
+            Debug.Log("Not all npc slots are empty.");
+        }
+    }
+
+    private void GrabFlyCardNPC(GameObject flyCard)
+    {
+        if (flyCard != null)
+        {
+            Debug.Log($"Grabbing object: {flyCard.name}");
+
+            flyCard.SetActive(true);
+            flyCard.transform.parent = npcCardPlace.transform;
+            flyCard.transform.position = npcCardPlace.transform.position;
+            flyCard.transform.rotation = Quaternion.Euler(0, 0, 0);
+            CPUManager.npcHasPlayed = true;
+        }
+        else
+        {
+            Debug.Log("Target object is null!");
+        }
     }
 }
 
