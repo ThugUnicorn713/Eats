@@ -4,16 +4,21 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using JetBrains.Annotations;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI npcHealthText;
+    
 
     public GameObject playerWon;
     public GameObject npcWon;
     public GameObject tiePanel;
+  
+    public string  playScene = "GameScene";
+    
     
 
     public void Awake()
@@ -23,6 +28,7 @@ public class UIManager : MonoBehaviour
             instance = this;
         }
 
+        
     }
 
     public void UpdateHealthUI()
@@ -48,6 +54,19 @@ public class UIManager : MonoBehaviour
         }
 
     }
+
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(playScene);
+    }
+
+    public void StopGame()
+    {
+        Debug.Log("They left!");
+        Application.Quit();
+    }
+
+   
 
     public void GetPlayerWon()
     {

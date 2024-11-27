@@ -20,9 +20,13 @@ public class GameManager : MonoBehaviour
     public GameObject flyCard;
     public GameObject playerCardPlace;
     public GameObject npcCardPlace;
+    public GameObject starvePlayerPanel;
+    public GameObject starveNPCPanel;
 
     private Transform npcDiscard;
     private Transform playerDiscard;
+
+    public bool isRoundOver = false; //win condition for the purpose of demo, figure out why bools dont get checked when cards leave the hand
 
     public int npcPlayedValue;
     public int playerPlayedValue;
@@ -83,8 +87,23 @@ public class GameManager : MonoBehaviour
             PlayerManager.playerHasPlayed = false;
         }
 
-        GrabFlyCardForPlayer(flyCard);
-        GrabFlyCardForNPC(flyCard);
+        if(isRoundOver == true)
+        {
+            if (playerHand.Count == 0)
+            {
+                starveNPCPanel.SetActive(true);
+            }
+           
+            if (npcHand.Count == 0) 
+            {
+                starvePlayerPanel.SetActive(true);
+            }
+
+            isRoundOver = false;
+        }
+
+        //GrabFlyCardForPlayer(flyCard);
+        //GrabFlyCardForNPC(flyCard);
     }
 
 
@@ -160,7 +179,8 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateNPCHealthUI();
             UIManager.instance.GetPlayerWon();
             UIManager.instance.TurnOffPlayerWon();
-            Debug.Log("Player health :" +  playerHealth);
+            isRoundOver = true;
+            //Debug.Log("Player health :" +  playerHealth);
             DrawCardForNPC();
         }
         else if (playerPlayedValue < npcPlayedValue)
@@ -171,18 +191,20 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateNPCHealthUI();
             UIManager.instance.GetNPCWon();
             UIManager.instance.TurnOffNPCWon();
-            Debug.Log("npc health :" + npcHealth);
+            isRoundOver = true;
+            //Debug.Log("npc health :" + npcHealth);
             DrawCardForPlayer();
         }
         else
         {
-            Debug.Log("We have a tie");
-            Debug.Log("Player health :" + playerHealth);
-            Debug.Log("npc health :" + npcHealth);
+            //Debug.Log("We have a tie");
+            //Debug.Log("Player health :" + playerHealth);
+            //Debug.Log("npc health :" + npcHealth);
             UIManager.instance.UpdateNPCHealthUI();
             UIManager.instance.UpdateHealthUI();
             UIManager.instance.GetTIE();
             UIManager.instance.TurnOffTIE();
+            isRoundOver = true;
         }
 
         CPUManager.initialied = false;
